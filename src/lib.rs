@@ -7,3 +7,5 @@ extern crate serde_derive;
 mod error;
 mod ser;
 mod de;
+
+pub use error::{Result, Error};
