@@ -6,6 +6,10 @@ The goal of this project is to provide a bridge between Elm and Rust. We envisio
 
 This would allow easy communication between an Elm front-end and a Rust backend by correctly serializing and deserializing data structures on both ends of the pipeline.
 
+## Contributing
+Check out the [contribution guideline][contributing] if you want to contribute.
+
 [elm]: http://elm-lang.org/
 [rust]: https://www.rust-lang.org/en-US/
 [serde]: https://serde.rs/
+[contributing]: https://github.com/mijnadres/serde_elm/blob/master/CONTRIBUTING.md
