@@ -44,6 +44,13 @@ type alias User =
 ### Flavor of Elm
 [`Json.Encode`][elm-encode] and [`Json.Decode`][elm-decode] are core Elm packages responsible for convert Elm values into and from JSON. Anyone who creates decoders quickly discovers [NoRedInk/elm-decode-pipeline][elm-decode-pipeline]. It is this flavor of decoding that we will targeting with this project.
 
+## Roadmap
+In order to make the above code happen the following tasks need to be fulfilled.
+
+* [ ] Generate Elm models from Rust models.
+* [ ] Generate Elm decoders from Rust models.
+* [ ] Generate Elm encoders from Rust models.
+
 ## Contributing
 Check out the [contribution guideline][contributing] if you want to contribute.
 
