@@ -5,6 +5,3 @@ authors = ["Daan van Berkel <daan.v.berkel.1980@gmail.com>"]
 
 [dependencies]
 syn = "0.12"
-quote = "0.3.0"
-serde = "1.0"
-serde_derive = "1.0"
