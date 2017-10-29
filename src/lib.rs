@@ -16,6 +16,9 @@ pub fn generate_elm(input: TokenStream) -> TokenStream {
 
     derive::generate_elm(&ast);
 
-    input
+    empty_token_stream()
 }
 
+fn empty_token_stream() -> TokenStream {
+    "".parse().unwrap()
+}
