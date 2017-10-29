@@ -14,7 +14,7 @@ pub fn generate_elm(input: TokenStream) -> TokenStream {
 
     let ast = syn::parse_derive_input(&source).unwrap();
 
-    derive::generate_elm_for(&ast);
+    derive::generate_elm(&ast);
 
     input
 }
