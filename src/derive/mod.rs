@@ -2,8 +2,10 @@ extern crate syn;
 
 use std::env;
 use std::fs::{File, create_dir};
-use std::io::{Write, BufWriter};
+use std::io::BufWriter;
 use syn::DeriveInput;
+use super::representation::Representation;
+use super::elm::Module;
 
 pub fn generate_elm(ast: &DeriveInput) {
     let mut path = env::current_dir().unwrap();
@@ -15,5 +17,13 @@ pub fn generate_elm(ast: &DeriveInput) {
 
     let file = File::create(path).unwrap();
     let ref mut w = BufWriter::new(file);
-    w.write("Hello, World!".as_bytes()).unwrap();
+
+    let m = module_from(ast);
+
+    m.write_representation(w).unwrap();
+}
+
+fn module_from(ast: &DeriveInput) -> Module {
+    let name = &ast.ident;
+    Module::new(name.to_string())
 }
