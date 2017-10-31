@@ -80,6 +80,11 @@ In order to make the above code happen the following tasks need to be fulfilled.
 * [ ] Generate Elm decoders from Rust models.
 * [ ] Generate Elm encoders from Rust models.
 
+### Nice to haves
+Although not strictly necessary, the following items are nice to have. No promises are made when, if at all, these are implemented. 
+
+* [ ] Have proper import statements in the Elm code. 
+
 ## Contributing
 Check out the [contribution guideline][contributing] if you want to contribute.
 
