@@ -22,18 +22,47 @@ struct User {
 }
 ```
 
-We generated the corresponding models in Elm with the following command.
+We want to generated the corresponding models in Elm. For this we need a dependency on the `serde_elm` crate. Include the following line in your `Cargo.toml`.
 
-```sh
-generate-elm
+```toml
+[dependencies]
+serde_elm = "0.1.0"
 ```
 
-Which will create the following models
+Next we need to make our project aware of the crate and the functionality it exposes. Import it in either `main.rs` or `lib.rs`. Don't forget to annotate the import with the `macro_use` annotation.
+
+```rust
+#[macro_use]
+extern crate serde_elm;
+```
+
+Now it is time to derive the corresponding models in Elm. Annotate the models with `derive(Elm)`.
+
+```rust
+#[derive(Elm)]
+enum Message {
+  FriendRequest(User),
+  Message(User, String),
+}
+
+#[derive(Elm)]
+struct User {
+  name: String
+}
+```
+
+Now every time your models change and you compile your code the corresponding Elm models will be generated. You can find them in the `generated` directory in your projects root. The are called after the corresponding Rust definitions. I.e. `Message.elm` and `User.elm` in this case.
 
 ```elm
+module Message exposing (..)
+
 type Message =
     FriendRequest User
   | Message User String
+```
+
+```elm
+module User exposing (..)
 
 type alias User = 
   {
