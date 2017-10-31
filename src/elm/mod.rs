@@ -3,17 +3,48 @@ use super::representation::Representation;
 
 pub struct Module {
     name: String,
+    definitions: Vec<Definition>,
 }
 
 impl Module {
     pub fn new<S>(name: S) -> Module where S: Into<String> {
-        Module { name : name.into() }
+        Module { name : name.into(), definitions: Vec::new() }
     }
 }
 
 impl Representation for Module {
     fn write_representation(&self, writer: &mut Write) -> Result<()> {
-        write!(writer, "module {} exposing (..)", self.name)
+        write!(writer, "module {} exposing (..)\n\n\n", self.name)?;
+
+        for definition in &self.definitions {
+            definition.write_representation(writer)?
+        }
+
+        Ok(())
+    }
+}
+
+pub enum Definition {
+    Struct,
+    Enum,
+    Function,
+}
+
+impl Representation for Definition {
+    fn write_representation(&self, writer: &mut Write) -> Result<()> {
+        match *self {
+            Definition::Struct => {
+                write!(writer, "type alias")
+            },
+
+            Definition::Enum => {
+                write!(writer, "type")
+            },
+
+            Definition::Function => {
+                write!(writer, "function")
+            },
+        }
     }
 }
 
@@ -29,6 +60,6 @@ mod tests {
 
         module.write_representation(&mut output).unwrap();
 
-        assert_eq!(output, b"module Test exposing (..)");
+        assert_eq!(output[0..25], b"module Test exposing (..)"[..]);
     }
 }
