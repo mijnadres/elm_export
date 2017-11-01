@@ -1,5 +1,3 @@
-extern crate syn;
-
 use std::env;
 use std::fs::{File, create_dir};
 use std::io::BufWriter;
