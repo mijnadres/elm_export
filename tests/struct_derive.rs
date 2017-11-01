@@ -14,10 +14,16 @@ struct Simple {
 
 #[test]
 fn should_assert_elm_generation_was_done() {
+	let model_name = "Simple";
+	assert!(content_equal_for(model_name))
+}
+
+fn content_equal_for<S>(model_name: S) -> bool where S: Into<String> {
+	let model_name = model_name.into();
 	let root = env::current_dir().unwrap();
     let mut path = root.clone();
     path.push("generated");
-    path.push("Simple.elm");
+    path.push(format!("{}.elm", model_name));
 
     assert!(path.exists());
     assert!(path.is_file());
@@ -27,11 +33,11 @@ fn should_assert_elm_generation_was_done() {
     let mut expected_path = root.clone();
     expected_path.push("tests");
     expected_path.push("assets");
-    expected_path.push("Simple.test.elm");
+    expected_path.push(format!("{}.test.elm", model_name));
 
     let expected = contents_of(&expected_path).unwrap();
 
-    assert_eq!(actual, expected);
+    actual == expected
 }
 
 fn contents_of(path: &Path) -> Result<String, Error> {
