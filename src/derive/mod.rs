@@ -38,3 +38,17 @@ fn module_from(ast: &DeriveInput) -> Module {
 
     module
 }
+
+fn definitions_from(body: &Body, module: &mut Module) {
+    match *body {
+        Body::Enum(ref variants) => {
+            let definition = Definition::Enum(module.name.to_string());
+            module.define(definition);
+        },
+        Body::Struct(ref variant_data) => {
+            let definition = Definition::Record(module.name.to_string());
+            module.define(definition);
+        }
+    }
+    
+}

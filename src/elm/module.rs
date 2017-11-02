@@ -3,7 +3,7 @@ use super::definition::Definition;
 use super::super::representation::Representation;
 
 pub struct Module {
-    name: String,
+    pub name: String,
     definitions: Vec<Definition>,
 }
 
