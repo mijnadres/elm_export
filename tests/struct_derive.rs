@@ -9,7 +9,7 @@ use std::path::Path;
 #[allow(dead_code)]
 #[derive(Elm)]
 struct Simple {
-    name: String
+    name: String,
 }
 
 #[test]

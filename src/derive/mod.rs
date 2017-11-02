@@ -1,9 +1,9 @@
 use std::env;
 use std::fs::{File, create_dir};
 use std::io::BufWriter;
-use syn::DeriveInput;
+use syn::{DeriveInput, Body, VariantData};
 use super::representation::Representation;
-use super::elm::Module;
+use super::elm::{Module, Definition};
 
 pub fn generate_elm(ast: &DeriveInput) {
     let mut path = env::current_dir().unwrap();
@@ -23,5 +23,18 @@ pub fn generate_elm(ast: &DeriveInput) {
 
 fn module_from(ast: &DeriveInput) -> Module {
     let name = &ast.ident;
-    Module::new(name.to_string())
+    let mut module = Module::new(name.to_string());
+
+    match ast.body {
+        Body::Enum(ref variants) => {
+            let definition = Definition::Enum(name.to_string());
+            module.define(definition);
+        },
+        Body::Struct(ref variant_data) => {
+            let definition = Definition::Record(name.to_string());
+            module.define(definition);
+        }
+    }
+
+    module
 }
