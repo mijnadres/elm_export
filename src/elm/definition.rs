@@ -1,25 +1,48 @@
 use std::io::{Write, Result};
 use super::super::representation::Representation;
 
-pub enum Definition {
-    Record(String),
-    Enum(String),
-    Function(String),
+pub struct Definition {
+    name: String,
+    definition_type: DefinitionType,
 }
+
+pub enum DefinitionType {
+    Record,
+    Enum,
+    Function,
+}
+
+impl Definition {
+    #[allow(non_snake_case)]
+    pub fn Record<S>(name: S) -> Definition where S: Into<String> {
+        Definition { name: name.into(), definition_type: DefinitionType::Record }
+    }
+
+    #[allow(non_snake_case)]
+    pub fn Enum<S>(name: S) -> Definition where S: Into<String> {
+        Definition { name: name.into(), definition_type: DefinitionType::Enum }
+    }
+
+    #[allow(non_snake_case)]
+    pub fn Function<S>(name: S) -> Definition where S: Into<String> {
+        Definition { name: name.into(), definition_type: DefinitionType::Function }
+    }
+}
+
 
 impl Representation for Definition {
     fn write_representation(&self, writer: &mut Write) -> Result<()> {
-        match *self {
-            Definition::Record(ref name) => {
-                write!(writer, "type alias {}", name)
+        match self.definition_type {
+            DefinitionType::Record => {
+                write!(writer, "type alias {}", self.name)
             },
 
-            Definition::Enum(ref name) => {
-                write!(writer, "type {}", name)
+            DefinitionType::Enum => {
+                write!(writer, "type {}", self.name)
             },
 
-            Definition::Function(ref name) => {
-                write!(writer, "{} =", name)
+            DefinitionType::Function => {
+                write!(writer, "{} =", self.name)
             },
         }
     }
