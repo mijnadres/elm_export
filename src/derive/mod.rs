@@ -1,6 +1,7 @@
 use std::env;
 use std::fs::{File, create_dir};
 use std::io::BufWriter;
+use syn;
 use syn::{DeriveInput, Body, VariantData};
 use super::representation::Representation;
 use super::elm::{Module, Definition, Field};
@@ -42,8 +43,7 @@ fn definition_from(body: &Body, name: String) -> Definition {
             match *variant_data {
                 VariantData::Struct(ref fields) => {
                     for field in fields {
-                        let field_name = field.clone().ident.unwrap();
-                        let field = Field::new(field_name.to_string());
+                        let field = field_from(field);
                         definition.add(field)
                     }
                 },
@@ -57,4 +57,10 @@ fn definition_from(body: &Body, name: String) -> Definition {
             definition
         }
     }
+}
+
+fn field_from(field: &syn::Field) -> Field {
+    let field_name = field.clone().ident.unwrap();
+    let field = Field::new(field_name.to_string());
+    field
 }
