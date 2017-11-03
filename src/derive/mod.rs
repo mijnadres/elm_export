@@ -2,9 +2,9 @@ use std::env;
 use std::fs::{File, create_dir};
 use std::io::BufWriter;
 use syn;
-use syn::{DeriveInput, Body, VariantData};
+use syn::{DeriveInput, Body, VariantData, Ty, Path};
 use super::representation::Representation;
-use super::elm::{Module, Definition, Field};
+use super::elm::{Module, Definition, Field, Type};
 
 pub fn generate_elm(ast: &DeriveInput) {
     let mut path = env::current_dir().unwrap();
@@ -61,6 +61,16 @@ fn definition_from(body: &Body, name: String) -> Definition {
 
 fn field_from(field: &syn::Field) -> Field {
     let field_name = field.clone().ident.unwrap();
-    let field = Field::new(field_name.to_string());
+    let field_type = match field.ty {
+        Ty::Path(_, ref path) => {
+            let path_type = path.segments.last().unwrap();
+            match path_type.ident.to_string().as_str() {
+                "String" => Type::String,
+                _ => Type::Unknown,
+            }
+        }
+        _ => Type::Unknown,
+    };
+    let field = Field::new(field_name.to_string(), field_type);
     field
 }
