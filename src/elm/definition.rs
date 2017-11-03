@@ -1,9 +1,11 @@
 use std::io::{Write, Result};
 use super::super::representation::Representation;
+use super::field::Field;
 
 pub struct Definition {
     name: String,
     definition_type: DefinitionType,
+    fields: Vec<Field>,
 }
 
 pub enum DefinitionType {
@@ -15,17 +17,21 @@ pub enum DefinitionType {
 impl Definition {
     #[allow(non_snake_case)]
     pub fn Record<S>(name: S) -> Definition where S: Into<String> {
-        Definition { name: name.into(), definition_type: DefinitionType::Record }
+        Definition { name: name.into(), fields: vec!(), definition_type: DefinitionType::Record }
     }
 
     #[allow(non_snake_case)]
     pub fn Enum<S>(name: S) -> Definition where S: Into<String> {
-        Definition { name: name.into(), definition_type: DefinitionType::Enum }
+        Definition { name: name.into(), fields: vec!(), definition_type: DefinitionType::Enum }
     }
 
     #[allow(non_snake_case)]
     pub fn Function<S>(name: S) -> Definition where S: Into<String> {
-        Definition { name: name.into(), definition_type: DefinitionType::Function }
+        Definition { name: name.into(), fields: vec!(), definition_type: DefinitionType::Function }
+    }
+
+    pub fn add(&mut self, field: Field) {
+        self.fields.push(field);
     }
 }
 
@@ -34,7 +40,11 @@ impl Representation for Definition {
     fn write_representation(&self, writer: &mut Write) -> Result<()> {
         match self.definition_type {
             DefinitionType::Record => {
-                write!(writer, "type alias {}", self.name)
+                write!(writer, "type alias {} = {{\n", self.name)?;
+                for field in &self.fields {
+                    field.write_representation(writer)?;
+                }
+                write!(writer, "}}\n")
             },
 
             DefinitionType::Enum => {

@@ -3,7 +3,7 @@ use std::fs::{File, create_dir};
 use std::io::BufWriter;
 use syn::{DeriveInput, Body, VariantData};
 use super::representation::Representation;
-use super::elm::{Module, Definition};
+use super::elm::{Module, Definition, Field};
 
 pub fn generate_elm(ast: &DeriveInput) {
     let mut path = env::current_dir().unwrap();
@@ -25,30 +25,36 @@ fn module_from(ast: &DeriveInput) -> Module {
     let name = &ast.ident;
     let mut module = Module::new(name.to_string());
 
-    match ast.body {
-        Body::Enum(ref variants) => {
-            let definition = Definition::Enum(name.to_string());
-            module.define(definition);
-        },
-        Body::Struct(ref variant_data) => {
-            let definition = Definition::Record(name.to_string());
-            module.define(definition);
-        }
-    }
+    let definition = definition_from(&ast.body, name.to_string());
+    module.define(definition);
 
     module
 }
 
-fn definitions_from(body: &Body, module: &mut Module) {
+fn definition_from(body: &Body, name: String) -> Definition {
     match *body {
         Body::Enum(ref variants) => {
-            let definition = Definition::Enum(module.name.to_string());
-            module.define(definition);
+            let definition = Definition::Enum(name);
+            definition
         },
         Body::Struct(ref variant_data) => {
-            let definition = Definition::Record(module.name.to_string());
-            module.define(definition);
+            let mut definition = Definition::Record(name);
+            match *variant_data {
+                VariantData::Struct(ref fields) => {
+                    for field in fields {
+                        let field_name = field.clone().ident.unwrap();
+                        let field = Field::new(field_name.to_string());
+                        definition.add(field)
+                    }
+                },
+                VariantData::Tuple(ref fields) => {
+                    unimplemented!()
+                },
+                VariantData::Unit => {
+                    unimplemented!()
+                },
+            }
+            definition
         }
     }
-    
 }
