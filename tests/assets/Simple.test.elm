@@ -1,4 +1,6 @@
 module Simple exposing (..)
 
 
-type alias Simple
+type alias Simple = {
+	name,
+}
