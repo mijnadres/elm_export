@@ -2,5 +2,9 @@ module Simple exposing (..)
 
 
 type alias Simple = {
-	name,
+	name: String,
+	id: Int,
+	value: Float,
+	global: Bool,
+	extension: Char,
 }

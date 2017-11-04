@@ -6,6 +6,7 @@ pub enum Type {
     Bool,
     Int,
     Float,
+    Char,
     Unknown,
 }
 
@@ -16,6 +17,7 @@ impl Representation for Type {
             Type::Bool => "Bool",
             Type::Int => "Int",
             Type::Float => "Float",
+            Type::Char => "Char",
             Type::Unknown => "UnknownType",
         };
         write!(writer, "{},\n", type_representation)

@@ -10,6 +10,10 @@ use std::path::Path;
 #[derive(Elm)]
 struct Simple {
     name: String,
+    id: u8,
+    value: f32,
+    global: bool,
+    extension: char,
 }
 
 #[test]

@@ -31,7 +31,7 @@
 //! exposes. Import it in either `main.rs` or `lib.rs`. Don't forget to annotate the
 //! import with the `macro_use` annotation.
 //!
-//! ```rust
+//! ```text
 //! #[macro_use]
 //! extern crate serde_elm;
 //! ```
@@ -39,7 +39,7 @@
 //! Now it is time to derive the corresponding models in Elm. Annotate the models
 //! with `derive(Elm)`.
 //!
-//! ```rust
+//! ```text
 //! #[derive(Elm)]
 //! enum Message {
 //!   FriendRequest(User),
