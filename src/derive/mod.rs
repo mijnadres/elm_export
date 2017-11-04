@@ -64,25 +64,9 @@ fn field_from(field: &syn::Field) -> Field {
     let field_type = match field.ty {
         Ty::Path(_, ref path) => {
             let path_type = path.segments.last().unwrap();
-            match path_type.ident.to_string().as_str() {
-                "String" => Type::String,
-                "u8" => Type::Int,
-                "i8" => Type::Int,
-                "u16" => Type::Int,
-                "i16" => Type::Int,
-                "u32" => Type::Int,
-                "i32" => Type::Int,
-                "u64" => Type::Int,
-                "i64" => Type::Int,
-                "usize" => Type::Int,
-                "isize" => Type::Int,
-                "f32" => Type::Float,
-                "f64" => Type::Float,
-                "bool" => Type::Bool,
-                "char" => Type::Char,
-               _ => Type::Unknown,
-            }
-        }
+            let elm_type = Type::from(path_type.ident.to_string().as_str());
+            elm_type
+        },
         _ => Type::Unknown,
     };
     let field = Field::new(field_name.to_string(), field_type);
