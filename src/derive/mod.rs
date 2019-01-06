@@ -2,7 +2,7 @@ use std::env;
 use std::fs::{File, create_dir};
 use std::io::BufWriter;
 use syn;
-use syn::{DeriveInput, Body, VariantData, Ty, Path};
+use syn::{DeriveInput, Body, VariantData, Ty};
 use super::representation::Representation;
 use super::elm::{Module, Definition, Field, Type};
 
@@ -10,7 +10,7 @@ pub fn generate_elm(ast: &DeriveInput) {
     let mut path = env::current_dir().unwrap();
     path.push("generated");
     if path.exists() && path.is_file() { panic!("expecting \"generated\" to be a directory"); }
-    if !path.exists() { create_dir(path.clone()).expect("problem creating \"generated\" directory") }
+    if !path.exists() { create_dir(path.clone()).expect("problem creating \"generated\" directory"); }
     let name = &ast.ident;
     path.push(format!("{}.elm", name));
 
@@ -34,7 +34,7 @@ fn module_from(ast: &DeriveInput) -> Module {
 
 fn definition_from(body: &Body, name: String) -> Definition {
     match *body {
-        Body::Enum(ref variants) => {
+        Body::Enum(ref _variants) => {
             let definition = Definition::Enum(name);
             definition
         },
@@ -47,7 +47,7 @@ fn definition_from(body: &Body, name: String) -> Definition {
                         definition.add(field)
                     }
                 },
-                VariantData::Tuple(ref fields) => {
+                VariantData::Tuple(ref _fields) => {
                     unimplemented!()
                 },
                 VariantData::Unit => {
