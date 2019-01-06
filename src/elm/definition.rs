@@ -1,8 +1,8 @@
 //! Modeling a definition in Elm.
 
-use std::io::{Write, Result};
 use super::super::representation::Representation;
 use super::field::Field;
+use std::io::{Result, Write};
 
 /// A `Definition` is a model of the different types one can define in Elm.
 pub struct Definition {
@@ -21,20 +21,41 @@ pub enum DefinitionType {
 impl Definition {
     /// Create an Elm record.
     #[allow(non_snake_case)]
-    pub fn Record<S>(name: S) -> Definition where S: Into<String> {
-        Definition { name: name.into(), fields: vec!(), definition_type: DefinitionType::Record }
+    pub fn Record<S>(name: S) -> Definition
+    where
+        S: Into<String>,
+    {
+        Definition {
+            name: name.into(),
+            fields: vec![],
+            definition_type: DefinitionType::Record,
+        }
     }
 
     /// Create an Elm enumeration.
     #[allow(non_snake_case)]
-    pub fn Enum<S>(name: S) -> Definition where S: Into<String> {
-        Definition { name: name.into(), fields: vec!(), definition_type: DefinitionType::Enum }
+    pub fn Enum<S>(name: S) -> Definition
+    where
+        S: Into<String>,
+    {
+        Definition {
+            name: name.into(),
+            fields: vec![],
+            definition_type: DefinitionType::Enum,
+        }
     }
 
     /// Create an Elm function.
     #[allow(non_snake_case)]
-    pub fn Function<S>(name: S) -> Definition where S: Into<String> {
-        Definition { name: name.into(), fields: vec!(), definition_type: DefinitionType::Function }
+    pub fn Function<S>(name: S) -> Definition
+    where
+        S: Into<String>,
+    {
+        Definition {
+            name: name.into(),
+            fields: vec![],
+            definition_type: DefinitionType::Function,
+        }
     }
 
     /// add a field to our definition.
@@ -42,7 +63,6 @@ impl Definition {
         self.fields.push(field);
     }
 }
-
 
 impl Representation for Definition {
     fn write_representation(&self, writer: &mut Write) -> Result<()> {
@@ -53,15 +73,11 @@ impl Representation for Definition {
                     field.write_representation(writer)?;
                 }
                 write!(writer, "}}\n")
-            },
+            }
 
-            DefinitionType::Enum => {
-                write!(writer, "type {}", self.name)
-            },
+            DefinitionType::Enum => write!(writer, "type {}", self.name),
 
-            DefinitionType::Function => {
-                write!(writer, "{} =", self.name)
-            },
+            DefinitionType::Function => write!(writer, "{} =", self.name),
         }
     }
 }

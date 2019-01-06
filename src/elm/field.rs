@@ -1,8 +1,8 @@
 //! Modeling Elm fields
 
-use std::io::{Write, Result};
 use super::super::representation::Representation;
 use super::Type;
+use std::io::{Result, Write};
 
 /// A field has a name and a type.
 pub struct Field {
@@ -12,8 +12,14 @@ pub struct Field {
 
 impl Field {
     /// Create a field
-    pub fn new<S>(name: S, field_type: Type) -> Field where S: Into<String> {
-        Field { name: name.into(), field_type }
+    pub fn new<S>(name: S, field_type: Type) -> Field
+    where
+        S: Into<String>,
+    {
+        Field {
+            name: name.into(),
+            field_type,
+        }
     }
 }
 

@@ -1,8 +1,8 @@
 //! Modeling Elm's `Module`
 
-use std::io::{Write, Result};
-use super::definition::Definition;
 use super::super::representation::Representation;
+use super::definition::Definition;
+use std::io::{Result, Write};
 
 /// A module has a name and a sequence of definitions
 pub struct Module {
@@ -12,8 +12,14 @@ pub struct Module {
 
 impl Module {
     /// Create a `Module` with a certain name.
-    pub fn new<S>(name: S) -> Module where S: Into<String> {
-        Module { name : name.into(), definitions: Vec::new() }
+    pub fn new<S>(name: S) -> Module
+    where
+        S: Into<String>,
+    {
+        Module {
+            name: name.into(),
+            definitions: Vec::new(),
+        }
     }
 
     /// Include a `Definition` in this module.

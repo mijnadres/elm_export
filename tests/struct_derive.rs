@@ -3,7 +3,7 @@ extern crate elm_export;
 
 use std::env;
 use std::fs::File;
-use std::io::{Read, Error};
+use std::io::{Error, Read};
 use std::path::Path;
 
 #[allow(dead_code)]
@@ -18,13 +18,16 @@ struct Simple {
 
 #[test]
 fn should_assert_elm_generation_was_done() {
-	let model_name = "Simple";
-	assert!(content_equal_for(model_name))
+    let model_name = "Simple";
+    assert!(content_equal_for(model_name))
 }
 
-fn content_equal_for<S>(model_name: S) -> bool where S: Into<String> {
-	let model_name = model_name.into();
-	let root = env::current_dir().unwrap();
+fn content_equal_for<S>(model_name: S) -> bool
+where
+    S: Into<String>,
+{
+    let model_name = model_name.into();
+    let root = env::current_dir().unwrap();
     let mut path = root.clone();
     path.push("generated");
     path.push(format!("{}.elm", model_name));

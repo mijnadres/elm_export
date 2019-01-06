@@ -1,8 +1,8 @@
 //! Modeling Elm's types.
 
-use std::io::{Write, Result};
-use std::convert::From;
 use super::super::representation::Representation;
+use std::convert::From;
+use std::io::{Result, Write};
 
 /// The different base types of Elm
 pub enum Type {

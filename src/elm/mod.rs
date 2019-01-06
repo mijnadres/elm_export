@@ -1,11 +1,11 @@
 //! Data structures modeling Elm's type system.
 
-mod module;
 mod definition;
-mod field;
 mod elmtype;
+mod field;
+mod module;
 
-pub use self::module::Module;
 pub use self::definition::Definition;
-pub use self::field::Field;
 pub use self::elmtype::Type;
+pub use self::field::Field;
+pub use self::module::Module;

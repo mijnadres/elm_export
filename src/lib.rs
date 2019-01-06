@@ -78,9 +78,9 @@ extern crate syn;
 
 use proc_macro::TokenStream;
 
-mod representation;
-mod elm;
 mod derive;
+mod elm;
+mod representation;
 
 /// Marker trait that allows to tie in the procedural macro tool chain.
 trait Elm {}

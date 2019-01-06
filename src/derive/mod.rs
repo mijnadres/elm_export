@@ -1,16 +1,20 @@
+use super::elm::{Definition, Field, Module, Type};
+use super::representation::Representation;
 use std::env;
-use std::fs::{File, create_dir};
+use std::fs::{create_dir, File};
 use std::io::BufWriter;
 use syn;
-use syn::{DeriveInput, Body, VariantData, Ty};
-use super::representation::Representation;
-use super::elm::{Module, Definition, Field, Type};
+use syn::{Body, DeriveInput, Ty, VariantData};
 
 pub fn generate_elm(ast: &DeriveInput) {
     let mut path = env::current_dir().unwrap();
     path.push("generated");
-    if path.exists() && path.is_file() { panic!("expecting \"generated\" to be a directory"); }
-    if !path.exists() { create_dir(path.clone()).expect("problem creating \"generated\" directory"); }
+    if path.exists() && path.is_file() {
+        panic!("expecting \"generated\" to be a directory");
+    }
+    if !path.exists() {
+        create_dir(path.clone()).expect("problem creating \"generated\" directory");
+    }
     let name = &ast.ident;
     path.push(format!("{}.elm", name));
 
@@ -37,7 +41,7 @@ fn definition_from(body: &Body, name: String) -> Definition {
         Body::Enum(ref _variants) => {
             let definition = Definition::Enum(name);
             definition
-        },
+        }
         Body::Struct(ref variant_data) => {
             let mut definition = Definition::Record(name);
             match *variant_data {
@@ -46,13 +50,9 @@ fn definition_from(body: &Body, name: String) -> Definition {
                         let field = field_from(field);
                         definition.add(field)
                     }
-                },
-                VariantData::Tuple(ref _fields) => {
-                    unimplemented!()
-                },
-                VariantData::Unit => {
-                    unimplemented!()
-                },
+                }
+                VariantData::Tuple(ref _fields) => unimplemented!(),
+                VariantData::Unit => unimplemented!(),
             }
             definition
         }
@@ -66,7 +66,7 @@ fn field_from(field: &syn::Field) -> Field {
             let path_type = path.segments.last().unwrap();
             let elm_type = Type::from(path_type.ident.to_string().as_str());
             elm_type
-        },
+        }
         _ => Type::Unknown,
     };
     let field = Field::new(field_name.to_string(), field_type);

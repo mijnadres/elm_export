@@ -1,4 +1,4 @@
-use std::io::{Write, Result};
+use std::io::{Result, Write};
 
 /// Write an Elm representation of a certain type to a `writer`.
 pub trait Representation {
