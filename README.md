@@ -11,7 +11,7 @@ by correctly serializing and deserializing data structures on both ends of the
 pipeline. 
 
 ## Usage
-Notice that at the moment som of this is dreamcode.
+Notice that at the moment some of this is dreamcode.
 
 Lets say we have some models in Rust.
 
