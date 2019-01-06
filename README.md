@@ -84,7 +84,7 @@ type alias User =
 
 ### Flavor of Elm
 [`Json.Encode`][elm-encode] and [`Json.Decode`][elm-decode] are core Elm
-packages responsible for convert Elm values into and from JSON. Anyone who
+packages responsible for converting Elm values into and from JSON. Anyone who
 creates decoders quickly discovers
 [NoRedInk/elm-decode-pipeline][elm-decode-pipeline]. It is this flavor of
 decoding that we will targeting with this project. 
