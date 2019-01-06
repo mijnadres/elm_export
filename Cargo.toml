@@ -1,5 +1,5 @@
 [package]
-name = "serde_elm"
+name = "elm_export"
 version = "0.1.0"
 authors = ["Daan van Berkel <daan.v.berkel.1980@gmail.com>"]
 

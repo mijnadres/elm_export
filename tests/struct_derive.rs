@@ -1,5 +1,5 @@
 #[macro_use]
-extern crate serde_elm;
+extern crate elm_export;
 
 use std::env;
 use std::fs::File;

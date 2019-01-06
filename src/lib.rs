@@ -1,9 +1,9 @@
 //! Provides easy communication between [Elm](http://elm-lang.org/) and
 //! [Rust](https://www.rust-lang.org/en-US/) by leveraging
-//! [serde](https://serde.rs/).
+//! [syn](https://crates.io/crates/syn).
 //!
 //! ## Usage
-//! Notice that at the moment som of this is dreamcode.
+//! Notice that at the moment some of this is dreamcode.
 //!
 //! Lets say we have some models in Rust.
 //!
@@ -19,12 +19,12 @@
 //! ```
 //!
 //! We want to generated the corresponding models in Elm. For this we need a
-//! dependency on the `serde_elm` crate. Include the following line in your
+//! dependency on the `elm_export` crate. Include the following line in your
 //! `Cargo.toml`.
 //!
 //! ```toml
 //! [dependencies]
-//! serde_elm = "0.1.0"
+//! elm_export = "0.1.0"
 //! ```
 //!
 //! Next we need to make our project aware of the crate and the functionality it
@@ -33,7 +33,7 @@
 //!
 //! ```text
 //! #[macro_use]
-//! extern crate serde_elm;
+//! extern crate elm_export;
 //! ```
 //!
 //! Now it is time to derive the corresponding models in Elm. Annotate the models

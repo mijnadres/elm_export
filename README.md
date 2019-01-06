@@ -1,5 +1,5 @@
-# serde_elm
-Provides easy communication between [Elm][elm] and [Rust][rust] by leveraging serde.
+# elm-export
+Provides easy communication between [Elm][elm] and [Rust][rust] by leveraging [syn][].
 
 ## Goal
 The goal of this project is to provide a bridge between Elm and Rust. We
@@ -27,12 +27,12 @@ struct User {
 ```
 
 We want to generated the corresponding models in Elm. For this we need a
-dependency on the `serde_elm` crate. Include the following line in your
+dependency on the `elm_export` crate. Include the following line in your
 `Cargo.toml`. 
 
 ```toml
 [dependencies]
-serde_elm = "0.1.0"
+elm_export = "0.1.0"
 ```
 
 Next we need to make our project aware of the crate and the functionality it
@@ -41,7 +41,7 @@ import with the `macro_use` annotation.
 
 ```rust
 #[macro_use]
-extern crate serde_elm;
+extern crate elm_export;
 ```
 
 Now it is time to derive the corresponding models in Elm. Annotate the models
