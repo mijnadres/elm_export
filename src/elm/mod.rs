@@ -1,3 +1,5 @@
+//! Data structures modeling Elm's type system.
+
 mod module;
 mod definition;
 mod field;

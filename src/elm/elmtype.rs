@@ -1,7 +1,10 @@
+//! Modeling Elm's types.
+
 use std::io::{Write, Result};
 use std::convert::From;
 use super::super::representation::Representation;
 
+/// The different base types of Elm
 pub enum Type {
     String,
     Bool,
