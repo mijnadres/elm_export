@@ -1,4 +1,4 @@
-# elm-export
+# elm_export
 Provides easy communication between [Elm][elm] and [Rust][rust] by leveraging [syn][].
 
 ## Goal
