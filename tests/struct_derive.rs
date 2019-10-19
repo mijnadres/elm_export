@@ -16,6 +16,7 @@ struct Simple {
     extension: char,
 }
 
+#[ignore]
 #[test]
 fn should_assert_elm_generation_was_done() {
     let model_name = "Simple";

@@ -1,12 +1,10 @@
-use super::elm::{Definition, Field, Module, Type};
+use super::elm::Module;
 use super::representation::Representation;
 use std::env;
 use std::fs::{create_dir, File};
 use std::io::BufWriter;
-use syn;
-use syn::{Body, DeriveInput, Ty, VariantData};
 
-pub fn generate_elm(ast: &DeriveInput) {
+pub fn generate_elm(module: &Module) {
     let mut path = env::current_dir().unwrap();
     path.push("generated");
     if path.exists() && path.is_file() {
@@ -15,60 +13,11 @@ pub fn generate_elm(ast: &DeriveInput) {
     if !path.exists() {
         create_dir(path.clone()).expect("problem creating \"generated\" directory");
     }
-    let name = &ast.ident;
+    let name = &module.name;
     path.push(format!("{}.elm", name));
 
     let file = File::create(path).unwrap();
     let ref mut w = BufWriter::new(file);
 
-    let m = module_from(ast);
-
-    m.write_representation(w).unwrap();
-}
-
-fn module_from(ast: &DeriveInput) -> Module {
-    let name = &ast.ident;
-    let mut module = Module::new(name.to_string());
-
-    let definition = definition_from(&ast.body, name.to_string());
-    module.define(definition);
-
-    module
-}
-
-fn definition_from(body: &Body, name: String) -> Definition {
-    match *body {
-        Body::Enum(ref _variants) => {
-            let definition = Definition::Enum(name);
-            definition
-        }
-        Body::Struct(ref variant_data) => {
-            let mut definition = Definition::Record(name);
-            match *variant_data {
-                VariantData::Struct(ref fields) => {
-                    for field in fields {
-                        let field = field_from(field);
-                        definition.add(field)
-                    }
-                }
-                VariantData::Tuple(ref _fields) => unimplemented!(),
-                VariantData::Unit => unimplemented!(),
-            }
-            definition
-        }
-    }
-}
-
-fn field_from(field: &syn::Field) -> Field {
-    let field_name = field.clone().ident.unwrap();
-    let field_type = match field.ty {
-        Ty::Path(_, ref path) => {
-            let path_type = path.segments.last().unwrap();
-            let elm_type = Type::from(path_type.ident.to_string().as_str());
-            elm_type
-        }
-        _ => Type::Unknown,
-    };
-    let field = Field::new(field_name.to_string(), field_type);
-    field
+    module.write_representation(w).unwrap();
 }

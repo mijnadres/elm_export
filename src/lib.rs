@@ -77,6 +77,7 @@ extern crate proc_macro;
 extern crate syn;
 
 use proc_macro::TokenStream;
+// use syn::{parse_macro_input, DeriveInput};
 
 mod derive;
 mod elm;
@@ -89,11 +90,9 @@ trait Elm {}
 /// directory.
 #[proc_macro_derive(Elm)]
 pub fn generate_elm(input: TokenStream) -> TokenStream {
-    let source = input.to_string();
+    // let input = parse_macro_input!(input as DeriveInput);
 
-    let ast = syn::parse_derive_input(&source).unwrap();
-
-    derive::generate_elm(&ast);
+    // derive::generate_elm(&input);
 
     empty_token_stream()
 }
