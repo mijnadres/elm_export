@@ -17,7 +17,7 @@ pub fn generate_elm(module: &Module) {
     path.push(format!("{}.elm", name));
 
     let file = File::create(path).unwrap();
-    let ref mut w = BufWriter::new(file);
+    let w = &mut BufWriter::new(file);
 
     module.write_representation(w).unwrap();
 }

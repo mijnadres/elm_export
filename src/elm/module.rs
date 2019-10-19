@@ -2,7 +2,9 @@
 
 use super::super::representation::Representation;
 use super::definition::Definition;
-use std::io::{Result, Write};
+use std::io::Write;
+use syn::Result;
+use syn::parse::{Parse, ParseStream};
 
 /// A module has a name and a sequence of definitions
 pub struct Module {
@@ -29,7 +31,7 @@ impl Module {
 }
 
 impl Representation for Module {
-    fn write_representation(&self, writer: &mut Write) -> Result<()> {
+    fn write_representation(&self, writer: &mut Write) -> std::io::Result<()> {
         write!(writer, "module {} exposing (..)\n", self.name)?;
 
         for definition in &self.definitions {
@@ -38,6 +40,14 @@ impl Representation for Module {
         }
 
         Ok(())
+    }
+}
+
+impl Parse for Module {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let module = Module::new("TODO");
+
+        return Ok(module)
     }
 }
 

@@ -74,14 +74,14 @@
 //!   }
 //! ```
 extern crate proc_macro;
-extern crate syn;
-
-use proc_macro::TokenStream;
-// use syn::{parse_macro_input, DeriveInput};
 
 mod derive;
 mod elm;
 mod representation;
+
+use proc_macro::TokenStream;
+use syn::parse_macro_input;
+use elm::Module;
 
 /// Marker trait that allows to tie in the procedural macro tool chain.
 trait Elm {}
@@ -90,9 +90,9 @@ trait Elm {}
 /// directory.
 #[proc_macro_derive(Elm)]
 pub fn generate_elm(input: TokenStream) -> TokenStream {
-    // let input = parse_macro_input!(input as DeriveInput);
+    let input = parse_macro_input!(input as Module);
 
-    // derive::generate_elm(&input);
+    derive::generate_elm(&input);
 
     empty_token_stream()
 }
