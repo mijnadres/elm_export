@@ -31,7 +31,7 @@ impl Module {
 }
 
 impl Representation for Module {
-    fn write_representation(&self, writer: &mut Write) -> std::io::Result<()> {
+    fn write_representation(&self, writer: &mut dyn Write) -> std::io::Result<()> {
         write!(writer, "module {} exposing (..)\n", self.name)?;
 
         for definition in &self.definitions {

@@ -65,7 +65,7 @@ impl Definition {
 }
 
 impl Representation for Definition {
-    fn write_representation(&self, writer: &mut Write) -> Result<()> {
+    fn write_representation(&self, writer: &mut dyn Write) -> Result<()> {
         match self.definition_type {
             DefinitionType::Record => {
                 write!(writer, "type alias {} = {{\n", self.name)?;

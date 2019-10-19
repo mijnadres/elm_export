@@ -15,7 +15,7 @@ pub enum Type {
 }
 
 impl Representation for Type {
-    fn write_representation(&self, writer: &mut Write) -> Result<()> {
+    fn write_representation(&self, writer: &mut dyn Write) -> Result<()> {
         let type_representation = match *self {
             Type::String => "String",
             Type::Bool => "Bool",

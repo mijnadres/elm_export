@@ -24,7 +24,7 @@ impl Field {
 }
 
 impl Representation for Field {
-    fn write_representation(&self, writer: &mut Write) -> Result<()> {
+    fn write_representation(&self, writer: &mut dyn Write) -> Result<()> {
         write!(writer, "\t{}: ", self.name)?;
         self.field_type.write_representation(writer)
     }
