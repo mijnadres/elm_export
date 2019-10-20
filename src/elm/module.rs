@@ -3,7 +3,7 @@
 use crate::representation::Representation;
 use crate::elm::Definition;
 use std::io::{Result, Write};
-use syn::{DeriveInput, Data, DataStruct, DataEnum};
+use syn::DeriveInput;
 
 /// A module has a name and a sequence of definitions
 pub struct Module {

@@ -46,8 +46,8 @@ impl Definition {
     }
 
     /// add a field to our definition.
-    pub fn add(&mut self, field: Field) {
-        self.fields.push(field);
+    pub fn add<F>(&mut self, field: F) where F: Into<Field> {
+        self.fields.push(field.into());
     }
 }
 
@@ -80,14 +80,22 @@ impl From<DeriveInput> for Definition {
     }
 }
 
-fn define_struct<S>(name : S, _data_struct: DataStruct) -> Definition where S: Into<String> {
-    let definition = Definition::Record(name);
+fn define_struct<S>(name : S, data_struct: DataStruct) -> Definition where S: Into<String> {
+    let mut definition = Definition::Record(name);
 
-    definition
+    for field in data_struct.fields {
+        definition.add(field);
+    }
+
+    definition 
 }
 
-fn define_enum<S>(name : S, _data_enum: DataEnum) -> Definition where S: Into<String> {
-    let definition = Definition::Enum(name);
+fn define_enum<S>(name : S, data_enum: DataEnum) -> Definition where S: Into<String> {
+    let mut definition = Definition::Enum(name);
+
+    for variant in data_enum.variants {
+        definition.add(variant);
+    }
 
     definition
 }

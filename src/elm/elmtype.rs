@@ -28,6 +28,12 @@ impl Representation for Type {
     }
 }
 
+impl From<syn::Type> for Type {
+    fn from(_input: syn::Type) -> Self {
+        Type::Unknown // TODO retrieve actual type information
+    }
+}
+
 impl<'a> From<&'a str> for Type {
     fn from(input: &str) -> Self {
         match input {
