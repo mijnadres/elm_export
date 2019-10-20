@@ -1,10 +1,10 @@
-use super::elm::Module;
-use super::representation::Representation;
+use crate::elm::Module;
+use crate::representation::Representation;
 use std::env;
 use std::fs::{create_dir, File};
 use std::io::{self, BufWriter};
 
-pub fn generate_elm(module: &Module) -> Result<(), Error> {
+pub fn generate_elm<M>(input: M) -> Result<(), Error> where M : Into<Module> {
     let mut path = env::current_dir()?;
     path.push("generated");
     if path.exists() && path.is_file() {
@@ -13,8 +13,8 @@ pub fn generate_elm(module: &Module) -> Result<(), Error> {
     if !path.exists() {
         create_dir(path.clone())?;
     }
-    let name = &module.name;
-    path.push(format!("{}.elm", name));
+    let module = input.into();
+    path.push(format!("{}.elm", &module.name));
 
     let file = File::create(path)?;
     let w = &mut BufWriter::new(file);

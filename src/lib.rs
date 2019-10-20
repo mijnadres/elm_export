@@ -91,8 +91,7 @@ trait Elm {}
 pub fn generate_elm(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
 
-    let module = elm::transform(input);
-    derive::generate_elm(&module).expect("to be able to generate elm module");
+    derive::generate_elm(input).expect("to be able to generate elm module");
 
     empty_token_stream()
 }
