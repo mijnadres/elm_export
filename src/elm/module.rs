@@ -24,8 +24,8 @@ impl Module {
     }
 
     /// Include a `Definition` in this module.
-    pub fn define(&mut self, definition: Definition) {
-        self.definitions.push(definition);
+    pub fn define<D>(&mut self, definition: D) where D: Into<Definition> {
+        self.definitions.push(definition.into());
     }
 }
 
@@ -47,29 +47,10 @@ impl From<DeriveInput> for Module {
         let name = input.ident.to_string();
         let mut module = Module::new(&name);
 
-        let definition = match input.data {
-            Data::Struct(data_struct) => define_struct(&name, data_struct),
-
-            Data::Enum(data_enum) => define_enum(&name, data_enum),
-
-            _ => unimplemented!(),
-        };
-        module.define(definition);
+        module.define(input);
 
         module
     }
-}
-
-fn define_struct<S>(name : S, _data_struct: DataStruct) -> Definition where S: Into<String> {
-    let definition = Definition::Record(name);
-
-    definition
-}
-
-fn define_enum<S>(name : S, _data_enum: DataEnum) -> Definition where S: Into<String> {
-    let definition = Definition::Record(name);
-
-    definition
 }
 
 #[cfg(test)]

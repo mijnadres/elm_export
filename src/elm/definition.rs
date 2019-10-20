@@ -3,6 +3,7 @@
 use crate::representation::Representation;
 use crate::elm::Field;
 use std::io::{Result, Write};
+use syn::{DeriveInput, Data, DataStruct, DataEnum};
 
 /// A `Definition` is a model of the different types one can define in Elm.
 pub struct Definition {
@@ -66,6 +67,31 @@ impl Representation for Definition {
     }
 }
 
+impl From<DeriveInput> for Definition {
+    fn from(input: DeriveInput) -> Self {
+        let name = input.ident.to_string();
+        match input.data {
+            Data::Struct(data_struct) => define_struct(name, data_struct),
+
+            Data::Enum(data_enum) => define_enum(name, data_enum),
+
+            _ => unimplemented!(),
+        }
+    }
+}
+
+fn define_struct<S>(name : S, _data_struct: DataStruct) -> Definition where S: Into<String> {
+    let definition = Definition::Record(name);
+
+    definition
+}
+
+fn define_enum<S>(name : S, _data_enum: DataEnum) -> Definition where S: Into<String> {
+    let definition = Definition::Enum(name);
+
+    definition
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::super::representation::Representation;
@@ -89,15 +115,5 @@ mod tests {
         definition.write_representation(&mut output).unwrap();
 
         assert_eq!(output[0..13], b"type TestEnum"[..]);
-    }
-
-    #[test]
-    fn function_should_write_it_self() {
-        let mut output = Vec::new();
-        let definition = Definition::Function(String::from("TestFunction"));
-
-        definition.write_representation(&mut output).unwrap();
-
-        assert_eq!(output[0..14], b"TestFunction ="[..]);
     }
 }
