@@ -80,8 +80,7 @@ mod elm;
 mod representation;
 
 use proc_macro::TokenStream;
-use syn::parse_macro_input;
-use elm::Module;
+use syn::{DeriveInput, parse_macro_input};
 
 /// Marker trait that allows to tie in the procedural macro tool chain.
 trait Elm {}
@@ -90,9 +89,10 @@ trait Elm {}
 /// directory.
 #[proc_macro_derive(Elm)]
 pub fn generate_elm(input: TokenStream) -> TokenStream {
-    let input = parse_macro_input!(input as Module);
+    let input = parse_macro_input!(input as DeriveInput);
 
-    derive::generate_elm(&input).expect("to be able to generate elm module");
+    let module = elm::transform(input);
+    derive::generate_elm(&module).expect("to be able to generate elm module");
 
     empty_token_stream()
 }

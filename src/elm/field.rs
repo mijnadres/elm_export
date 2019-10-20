@@ -1,7 +1,7 @@
 //! Modeling Elm fields
 
-use super::super::representation::Representation;
-use super::Type;
+use crate::representation::Representation;
+use crate::elm::Type;
 use std::io::{Result, Write};
 
 /// A field has a name and a type.

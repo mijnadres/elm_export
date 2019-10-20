@@ -1,10 +1,8 @@
 //! Modeling Elm's `Module`
 
-use super::super::representation::Representation;
-use super::definition::Definition;
-use std::io::Write;
-use syn::Result;
-use syn::parse::{Parse, ParseStream};
+use crate::representation::Representation;
+use crate::elm::Definition;
+use std::io::{Result, Write};
 
 /// A module has a name and a sequence of definitions
 pub struct Module {
@@ -31,7 +29,7 @@ impl Module {
 }
 
 impl Representation for Module {
-    fn write_representation(&self, writer: &mut dyn Write) -> std::io::Result<()> {
+    fn write_representation(&self, writer: &mut dyn Write) -> Result<()> {
         write!(writer, "module {} exposing (..)\n", self.name)?;
 
         for definition in &self.definitions {
@@ -40,14 +38,6 @@ impl Representation for Module {
         }
 
         Ok(())
-    }
-}
-
-impl Parse for Module {
-    fn parse(input: ParseStream) -> Result<Self> {
-        let module = Module::new("TODO");
-
-        return Ok(module)
     }
 }
 

@@ -1,7 +1,7 @@
 //! Modeling a definition in Elm.
 
-use super::super::representation::Representation;
-use super::field::Field;
+use crate::representation::Representation;
+use crate::elm::Field;
 use std::io::{Result, Write};
 
 /// A `Definition` is a model of the different types one can define in Elm.
@@ -15,13 +15,12 @@ pub struct Definition {
 pub enum DefinitionType {
     Record,
     Enum,
-    Function,
 }
 
 impl Definition {
     /// Create an Elm record.
     #[allow(non_snake_case)]
-    pub fn Record<S>(name: S) -> Definition
+    pub fn Record<S>(name: S) -> Self
     where
         S: Into<String>,
     {
@@ -34,7 +33,7 @@ impl Definition {
 
     /// Create an Elm enumeration.
     #[allow(non_snake_case)]
-    pub fn Enum<S>(name: S) -> Definition
+    pub fn Enum<S>(name: S) -> Self
     where
         S: Into<String>,
     {
@@ -42,19 +41,6 @@ impl Definition {
             name: name.into(),
             fields: vec![],
             definition_type: DefinitionType::Enum,
-        }
-    }
-
-    /// Create an Elm function.
-    #[allow(non_snake_case)]
-    pub fn Function<S>(name: S) -> Definition
-    where
-        S: Into<String>,
-    {
-        Definition {
-            name: name.into(),
-            fields: vec![],
-            definition_type: DefinitionType::Function,
         }
     }
 
@@ -76,8 +62,6 @@ impl Representation for Definition {
             }
 
             DefinitionType::Enum => write!(writer, "type {}", self.name),
-
-            DefinitionType::Function => write!(writer, "{} =", self.name),
         }
     }
 }
